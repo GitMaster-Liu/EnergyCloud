@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iail.energycloud.mapper.bgmx.TankLimitMapper">
+    <select id="selectTankLimit" resultType="com.iail.energycloud.entity.bgmx.TankLimitEntity">
+        SELECT * FROM bgmx.t_tank_limitvalue
+    </select>
+    <insert id="insertTankLimit">
+        INSERT INTO bgmx.t_tank_limitvalue(id,itemname,hhlimit,hlimit,llimit,lllimit,dsp)
+        VALUES (#{id},#{itemName},#{hhLimit},#{hLimit},#{lLimit},#{llLimit},#{dsp})
+    </insert>
+    <delete id="deleteTankLimit" parameterType="String">
+        DELETE FROM bgmx.t_tank_limitvalue WHERE id=#{id}
+    </delete>
+</mapper>

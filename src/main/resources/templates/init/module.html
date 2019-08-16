@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ModuleInit</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="animated fadeIn">
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <i class=""></i>
+                <h5>管网配置</h5>
+            </div>
+            <div class="ibox-content" id="net_table_show">
+                <div class="" id="toolbar">
+                    <button type="button" class="btn btn-primary btn-outline" id="net_add_btn">
+                        <i class="fa fa-plus">新增</i>
+                    </button>
+                    <button type="button" class="btn btn-destroy" id="net_del_btn">
+                        <i class="fa fa-minus">删除</i>
+                    </button>
+                </div>
+                <table id="net_table" class="table table-hover table-bordered">
+                </table>
+            </div>
+            <div id="net" class="ibox-content" style="display:none;">
+                <!--<form id="" class="form-horizontal">-->
+                    <!--<div class="form-group ">-->
+                        <!--<label class="col-lg-2 control-label col-lg-pull-1">选择分类:</label>-->
+                        <!--<div class="col-lg-4 col-lg-pull-1" id="net_classfy">-->
+                            <!--<div class="col-lg-2">-->
+                                <!--<label>-->
+                                    <!--<input type="radio" value="1" id="" name="netRadios">预测-->
+                                <!--</label>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-2">-->
+                                <!--<label>-->
+                                    <!--<input type="radio" value="0" id="" name="netRadios">调度-->
+                                <!--</label>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</form>-->
+
+                <form id="net_predict_edit_form_add" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label col-lg-pull-1">名称:</label>
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <input type="text" class="form-control" name="" id="predict_net_name" required placeholder="例:高炉煤气管网">
+                        </div>
+                        <label class="col-lg-2 control-label col-lg-pull-1">显示名:</label>
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <input type="text" class="form-control " name="" required id="predict_net_no" placeholder="例:BFGNet">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-2 col-lg-pull-1 control-label">预测周期:</label>
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <input type="number" class="form-control " name="" required id="predict_net_cycle" placeholder="" value="180">
+                        </div>
+                    </div>
+
+                </form>
+
+
+                <!--<form id="net_adjust_edit_form_add" class="form-horizontal" style="display:none">-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-lg-2 control-label col-lg-pull-1">名称:</label>-->
+                        <!--<div class="col-lg-4 col-lg-pull-1">-->
+                            <!--<input type="text" class="form-control" name="" required id="adjust_net_name" placeholder="例:高炉煤气管网">-->
+                        <!--</div>-->
+                        <!--<label class="col-lg-2 control-label col-lg-pull-1">显示名:</label>-->
+                        <!--<div class="col-lg-4 col-lg-pull-1">-->
+                            <!--<input type="text" class="form-control " name="" required id="asjust_net_no" placeholder="例:BFGNet">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-lg-2 col-lg-pull-1 control-label">调整状态:</label>-->
+                        <!--<div class="col-lg-4 col-lg-pull-1" id="adjust_status">-->
+                            <!--<div class="col-lg-2">-->
+                                <!--<label>-->
+                                    <!--<input type="radio" value="1" id="" checked name="optionsRadios">调整-->
+                                <!--</label>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-2">-->
+                                <!--<label>-->
+                                    <!--<input type="radio" value="0" id="" name="optionsRadios">不调整-->
+                                <!--</label>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</form>-->
+            </div>
+            <div class="ibox-footer">
+                <div class="row">
+                    <div class="text-center">
+                        <div id="init_div" style="display:none">
+                            <button type="button" class="btn btn-primary" id="back_old_page_btn">返回</button>
+                            <button type="button" class="btn btn-primary" id="form_submit_btn">保存</button>
+                        </div>
+                        <div id="next_div">
+                            <button type="button" class="btn btn-primary" id="next_page_btn">
+                                下一页
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
+
+<script>
+$(document).ready(function(){
+    $('#net_add_btn').on('click', function () {
+        $('#net_table_show').toggle();
+        $('#net').toggle();
+        $('#init_div').toggle();
+        $('#next_div').toggle();
+    });
+    //返回
+    $('#back_old_page_btn').on('click', function () {
+        $('#net_table_show').toggle();
+        $('#net').toggle();
+        $('#init_div').toggle();
+        $('#next_div').toggle();
+    });
+    //下一页
+    $('#next_page_btn').on('click', function () {
+        window.location.href = location.origin+"/point";
+    });
+    $.ajax({
+        type: "GET",
+        url: "/module/select",
+        dataType: "json",
+        async: true,
+        data:{},
+        success: function (netData) {
+            netTableInit(netData);
+        },
+        error: function(){
+            console.log("管网查询数据接口出错");
+        }
+    });
+});
+
+//显示
+var netTableInit = function (netData) {
+    $('#net_table').bootstrapTable({
+        toolbar:'#toolbar',
+        data: netData,
+        striped: true,                      //是否显示行间隔色
+        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+        pagination: true,                   //是否显示分页（*）
+        sortable: true,                     //是否启用排序
+        //sortOrder: "asc",                   //排序方式
+        //queryParams: oTableInit.queryParams,//传递参数（*）
+        sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+        pageNumber: 1,                       //初始化加载第一页，默认第一页
+        pageSize: 10,                       //每页的记录行数（*）
+        pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+        search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+        //strictSearch: true,
+        //showColumns: true,                  //是否显示所有的列
+        //showRefresh: true,                  //是否显示刷新按钮
+        minimumCountColumns: 2,             //最少允许的列数
+
+        detailView: false,                   //是否显示父子表
+        columns: [
+
+            {
+                checkbox: true,
+                width: 40
+
+            },
+            {
+                field: '',
+                title: '序号',
+                width: 57,
+                formatter: function (value, row, index) {
+                    return index + 1;
+                }
+            },
+            {
+                field: 'id',
+                title: 'ID',
+                visible:false
+                //formatter: timeFormatter
+            },
+            {
+                field: 'moduleName',
+                title: '管网名'
+                //formatter: timeFormatter
+            },
+            {
+                field: 'moduleType',
+                title: '管网编号'
+            }
+        ]
+    });
+};
+
+//删除
+$('#net_del_btn').click(function(){
+    alert("确认删除？");
+    var data = $("#net_table").bootstrapTable('getSelections');
+    var n = data.length;
+    var i;
+    for(i=0;i<n;i++){
+        var targetId = data[i].id;
+        var object={
+            id : targetId
+        };
+        $.ajax({
+            type: "POST",
+            url: "/module/delete",
+            dataType: "json",
+            async: true,
+            data: object,
+            success: function () {
+                refresh();
+            },
+            error: function(){
+                console.log("管网删除接口出错");
+            }
+        })
+    }
+});
+
+//插入
+$('#form_submit_btn').click(function(){
+    var data = formChecked();
+    $.ajax({
+        type: "POST",
+        url: "/module/insert",
+        dataType: "json",
+        async: true,
+        data: data,
+        success: function () {
+            $('#net_table_show').toggle();
+            $('#net').toggle();
+            $('#init_div').toggle();
+            $('#next_div').toggle();
+            refresh();
+        },
+        error: function(){
+            console.log("请求失败");
+        }
+    })
+});
+
+var formChecked = function(){
+    var moduleName;
+    var moduleType;
+    var cycle;
+    var object;
+    //var netClassfy = $('#net_classfy')[0].value;
+    // if (netClassfy == 1) {
+    moduleName = $("#predict_net_name").val();
+    moduleType = $("#predict_net_no").val();
+    cycle = parseInt($("#predict_net_cycle").val());
+    object = {
+        "moduleName" : moduleName,
+        "moduleType" : moduleType,
+        "cycle" : cycle
+        //"status": netClassfy
+    };
+    // } else {
+    //     netName = $("#adjust_net_name").val();
+    //     netNo = $("#asjust_net_no").val();
+    //     adjustStatus = $('#adjust_status')[0].val();
+    //     object = {
+    //         "netName": netName,
+    //         "netNo": netNo,
+    //         "adjustStatus": adjustStatus,
+    //         "status": netClassfy
+    //     };
+    // }
+     return object;
+};
+
+//刷新
+var refresh = function(){
+    $.ajax({
+        type: "GET",
+        url: "/module/select",
+        dataType: "json",
+        async: true,
+        data:{},
+        success: function (netData) {
+            $('#net_table').bootstrapTable('load', netData);
+        },
+        error: function(){
+            console.log("管网查询数据接口出错");
+        }
+    });
+}
+</script>

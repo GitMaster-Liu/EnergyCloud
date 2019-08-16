@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ScheduleParamInit</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <i class=""></i>
+                <h5>调整项配置</h5>
+            </div>
+            <div class="ibox-content" id="user_table_show">
+                <div class="" id="toolbar_user">
+                    <button type="button" class="btn btn-primary btn-outline" id="user_add_btn">
+                        <i class="fa fa-plus">新增</i>
+                    </button>
+                    <button type="button" class="btn btn-destroy" id="user_del_btn">
+                        <i class="fa fa-minus">删除</i>
+                    </button>
+                    <button type="button" class="btn btn-destroy" id="menu_btn_insert">
+                        <i class="fa fa-minus">批量导入</i>
+                    </button>
+                    <button type="button" class="btn btn-destroy" id="menu_btn_download">
+                        <i class="fa fa-minus">下载模版</i>
+                    </button>
+                </div>
+                <table id="user_param_table" class="table table-hover table-bordered">
+                    <thead>
+                    <tr>
+                        <th data-checkbox="true"></th>
+                        <th data-field="">序号</th>
+                        <th data-field="varname">变量名</th>
+                        <th data-field="lowLimit">下限</th>
+                        <th data-field="highLimit">上限</th>
+                        <th data-field="group">组别</th>
+                        <th data-field="unit">单位</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="ibox-content" style="display:none" id="user_edit_form_show">
+                <div>
+                    <form id="" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label col-lg-pull-1">变量名:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="text" class="form-control " id="variable_name" value="" name="" placeholder="">
+                            </div>
+                            <label class="col-lg-2 control-label col-lg-pull-1"></label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <button type="button" class="btn btn-primary" id="adjust_query_point_btn">查询</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label col-lg-pull-1">所属管网:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <select class="form-control" required id="net_classfy">
+                                    <option value="BFG">高炉煤气管网</option>
+                                    <option value="COG">焦炉煤气管网</option>
+                                    <option value="LOG">转炉煤气管网</option>
+                                </select>
+                            </div>
+                            <label class="col-lg-2 control-label col-lg-pull-1">单位:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <select class="form-control" id="unit">
+                                    <option value="千立方米/分钟">km3/m</option>
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label col-lg-pull-1">逻辑上限:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="number" class="form-control " id="logic_max" value="" name="" placeholder="">
+                            </div>
+                            <label class="col-lg-2 control-label col-lg-pull-1">逻辑下限:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="number" class="form-control " id="logic_min" value="" name="" placeholder="">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="ibox-footer" id="foot_user" style="display:none">
+
+                <div class="row">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" id="back_user_btn">返回</button>
+
+                        <button type="button" class="btn btn-primary" id="save_user_btn">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-footer">
+                <div class="row">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" id="back_page_btn">上一页</button>
+                        <button type="button" class="btn btn-primary" id="next_page_btn">下一页</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="js/tempJs/scheduleParam.js"></script>
+</html>

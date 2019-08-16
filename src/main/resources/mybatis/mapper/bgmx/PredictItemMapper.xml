@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iail.energycloud.mapper.bgmx.PredictItemMapper">
+    <select id="selectPredictItem" resultType="com.iail.energycloud.entity.bgmx.PredictItem.PredictItemEntity">
+        select t1.id as Id, t1.itemno as itemNo, t1.itemname as itemName, t1.predictlength as predictLength,t1.granularity as granularity, t1.status as status,
+        t1.isfuse as isFuse, t1.predictphase as predictPhase,t1.workchecked as workChecked,t2.caltypename as calTypeName, t3.itemtypename as itemTypeName,
+        t3.itemclasstype as itemClassType,t3.assemblyname as assemblyName,t5.tablename as tableName,t6.modelno as modelNo,t6.modelname as modelName, t6.arithid as arithId,
+        t6.trainsamplength as trainSampLength, t6.predictsamplength as predictSampLength, t6.isonlinetrain as isOnlineTrain,t6.modelpath as modelPath,t6.isnormal as isNormal,
+        t6.normalmax as normalMax,t6.normalmin as normalMin, t6.status as status1
+        from bgmx.t_mm_predict_item t1
+        join bgmx.t_mm_item_cal_type t2 on t1.caltypeid = t2.id
+        join bgmx.t_mm_item_type t3 on t1.itemtypeid = t3.id
+        join bgmx.t_mm_predict_model t6 on t6.itemid = t1.id
+        left join bgmx.t_mm_item_output t4 on t4.itemid = t1.id
+        left join bgmx.t_mm_result_table t5 on t4.resulttableid = t5.id
+    </select>
+    <select id="selectCalType" resultType="com.iail.energycloud.entity.bgmx.PredictItem.CalTypeEntity">
+        SELECT * FROM bgmx.t_mm_item_cal_type
+    </select>
+    <select id="selectItemType" resultType="com.iail.energycloud.entity.bgmx.PredictItem.ItemTypeEntity">
+        SELECT * FROM bgmx.t_mm_item_type
+    </select>
+    <select id="selectPredictModel" resultType="com.iail.energycloud.entity.bgmx.PredictItem.PredictModelEntity">
+        SELECT * FROM bgmx.t_mm_predict_model
+    </select>
+    <select id="selectArith" resultType="com.iail.energycloud.entity.bgmx.PredictItem.ArithEntity">
+        select DISTINCT t1.arithname as arithName,t1.arithtype as arithType,t1.id as id from bgmx.t_ag_arith t1
+        join bgmx.t_ag_arith_param t2 on t1.id = t2.arithid
+    </select>
+    <insert id="insertPredict">
+        INSERT INTO bgmx.t_mm_predict_item(id,itemno,itemname,caltypeid,itemtypeid,predictlength,granularity,status,isfuse,predictphase,workchecked,unittransfactor)
+        VALUES(#{id},#{itemNo},#{itemName},#{calTypeId},#{itemTypeId},#{predictLength},#{granularity},#{status},#{isFuse},#{predictPhase},#{workChecked},#{unitTransfactor})
+    </insert>
+    <insert id="insertPredictModel">
+        INSERT INTO bgmx.t_mm_predict_model(id,modelno,modelname,itemid,arithid,trainsamplength,predictsamplength,isonlinetrain,modelpath,isnormal,normalmax,normalmin,status)
+        VALUES(#{id},#{modelNo},#{modelName},#{modelId},#{itemId},#{arithId},#{trainSampLength},#{predictSampLength},#{isOnlineTrain},#{modelPath},#{isNormal},#{normalMax},#{normalMin},#{status})
+    </insert>
+</mapper>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PredictInit</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <i class=""></i>
+                <h5>预测模型配置</h5>
+                <!--@*<div class="ibox-tools">-->
+                <!--<a class="collapse-link">-->
+                    <!--<i class="fa fa-chevron-up"></i>-->
+                <!--</a>-->
+                <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#">-->
+                    <!--<i class="fa fa-wrench"></i>-->
+                <!--</a>-->
+                <!--<ul class="dropdown-menu dropdown-user">-->
+                    <!--<li>-->
+                        <!--<a href="#">选项 1</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<a href="#">选项 2</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>*@-->
+            </div>
+
+            <div class="ibox-content" id="predict_model_table_show">
+                <div id="toolbar">
+                    <button type="button" class="btn btn-primary btn-outline" id="predict_model_add_btn">
+                        <i class="fa fa-plus">新增</i>
+                    </button>
+                    <button type="button" class="btn btn-primary btn-outline" id="predict_model_del_btn">
+                        <i class="fa fa-minus">删除</i>
+                    </button>
+                    <button type="button" class="btn btn-destroy" id="menu_btn_delete" disabled style="display:none">
+                        <i class="fa fa-minus">批量导入</i>
+                    </button>
+                    <button type="button" class="btn btn-destroy" id="template_download_btn">
+                        <i class="fa fa-minus">下载模版</i>
+                    </button>
+                    <button type="button" class="btn btn-default" id="predict_query_model_param" style="display:none">
+                        <i class="fa fa-edit">查询</i>
+                    </button>
+                    <button type="button" class="btn btn-default" id="predict_query_model_param_btn" style="display:none">
+                        模型参数
+                    </button>
+                    <button type="button" class="btn btn-default" id="predict_query_arith_param_btn" style="display:none">
+                        算法参数
+                    </button>
+                    <!--@*<div id="predict_query_param_div" style="display:none">-->
+
+                <!--</div>*@-->
+                </div>
+                <table id="predict_item_table" class="table table-hover table-bordered">
+                    <thead>
+                    <tr>
+                        <th data-checkbox="true"></th>
+                        <th data-field="">序号</th>
+                        <th data-field="itemName">预测项名</th>
+                        <th data-field="itemNo">编号</th>
+                        <th data-field="predictLength">预测长度</th>
+                        <th data-field="isFuse">融合</th>
+                        <th data-field="granularity">粒度</th>
+                        <th data-field="status">参与预测</th>
+                        <th data-field="predictPhase">预测时段</th>
+                        <th data-field="workChecked">校正标识位</th>
+                        <th data-field="calTypeName">计算类型</th>
+                        <th data-field="itemTypeName">预测项类型</th>
+                        <th data-field="tableName">表名</th>
+                        <th data-field="modelNo">模型编号</th>
+                        <th data-field="modelName">模型名称</th>
+                        <th data-field="trainSampLength">训练样本长度</th>
+                        <th data-field="predictSampLength">预测样本长度</th>
+                        <th data-field="isOnlineTrain">是否在线训练</th>
+                        <th data-field="modelPath">模型路径</th>
+                        <!--@*<th data-field="isNormal">是否归一化</th>-->
+                        <!--<th data-field="normalMax">最大值</th>-->
+                        <!--<th data-field="normalmin">最小值</th>-->
+                        <!--<th data-field="status1">是否使用</th>*@-->
+                    </tr>
+
+                    </thead>
+                </table>
+            </div>
+            <div class="ibox-content" style="display:none" id="predict_model_edit_form_show">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-2 col-lg-pull-1 control-label">预测项:</label>
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <input type="text" class="form-control " id="predict_item" value="" name="" placeholder="">
+                            <input type="text" class="form-control " id="point_id" value="" name="" placeholder="" style="display:none">
+                        </div>
+
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <button type="button" class="btn btn-primary" id="query_point_btn">查询</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 col-lg-pull-1 control-label">编号:</label>
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <input type="text" class="form-control " id="predict_no" value="" name="" placeholder="">
+                        </div>
+
+                        <div class="col-lg-1 col-lg-pull-1" id="checked_flag">
+
+                        </div>
+                        <label class="col-lg-1 control-label col-lg-pull-1">所属管网:</label>
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <select class="form-control" required id="user_net">
+                                @*<option value="高炉煤气管网">高炉煤气管网</option>
+                                <option value="焦炉煤气管网">焦炉煤气管网</option>
+                                <option value="转炉煤气管网1">转炉煤气管网1</option>
+                                <option value="转炉煤气管网2">转炉煤气管网2</option>*@
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label col-lg-pull-1">计算类型:</label>
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <select class="form-control" id="predict_item_computer_classfy">
+
+                                <option value="NumericCalItem">NumericCalItem</option>
+                                <option value="ModelCalItem">ModelCalItem</option>
+                            </select>
+                        </div>
+                        <label class="col-lg-2 control-label col-lg-pull-1">预测项类型:</label>
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <select class="form-control" id="predict_item_classfy">
+                                <!--@*<option value="NetTotalAmountItem">NetTotalAmountItem</option>-->
+                                <!--<option value="ConverterLDGItem">ConverterLDGItem</option>-->
+                                <!--<option value="BFGTankPredictItem">BFGTankPredictItem</option>-->
+                                <!--<option value="NormalItem">NormalItem</option>-->
+                                <!--<option value="COGTankItem">COGTankItem</option>-->
+                                <!--<option value="Numerictem">Numerictem</option>-->
+                                <!--<option value="MergeItem">MergeItem</option>-->
+                                <!--<option value="PowerItemDL">PowerItemDL</option>-->
+                                <!--<option value="LDGproductItem">LDGproductItem</option>-->
+                                <!--<option value="LDGTankItem">LDGTankItem</option>-->
+                                <!--<option value="COGTankPredictItem">COGTankPredictItem</option>-->
+                                <!--<option value="BFGproductItem">BFGproductItem</option>-->
+                                <!--<option value="BlastBFGItem">BlastBFGItem</option>-->
+                                <!--<option value="BFGTankItem">BFGTankItem</option>-->
+                                <!--<option value="LDGTankPredictItem">LDGTankPredictItem</option>-->
+                                <!--<option value="PowerDFItem">PowerDFItem</option>-->
+                                <!--<option value="CokeovenCOGItem">CokeovenCOGItem</option>*@-->
+                            </select>
+                        </div>
+
+                    </div>
+                </form>
+
+                <form id="merged_params_form" class="form-horizontal" style="display:none">
+                    <!--@*<div class="form-group">-->
+                    <!--<div class="col-lg-1 ">-->
+                        <!--<button type="button" class="btn btn-primary" id="params_count_btn" name="params_merged_btn">查询</button>-->
+                    <!--</div>-->
+                    <!--<label class="col-lg-1 control-label ">融合参数添加</label>-->
+                    <!--<div class="col-lg-2 ">-->
+                        <!--<button type="button" class="btn btn-default" id="params_merged_add">-->
+                            <!--<i class="fa fa-plus"></i>-->
+                        <!--</button>-->
+                    <!--</div>-->
+                <!--</div>*@-->
+
+                    <div class="form-group" id="merged_div" style="border-top:1px dashed #e7eaec;border-bottom:1px dashed #e7eaec;margin-left: 0px;margin-right: 0px;padding-top: 15px">
+                        <div class="form-group" id="merged_form_0">
+                            <label class="col-lg-1 control-label ">编号</label>
+                            <div class="col-lg-2 ">
+                                <input type="text" class="form-control " id="" value="" name="merged_item_number" placeholder="" readonly>
+                            </div>
+                            <label class="col-lg-1 control-label ">运算符</label>
+                            <div class="col-lg-1 ">
+                                <select class="form-control" id="" name="operator">
+                                    <option value=""></option>
+                                    <option value="*">*</option>
+                                    <option value="/">/</option>
+                                </select>
+                            </div>
+                            <label class="col-lg-1 control-label ">数字</label>
+                            <div class="col-lg-1 ">
+                                <input type="text" class="form-control " id="" value="" name="number" placeholder="">
+                            </div>
+                            <label class="col-lg-1 control-label ">运算符</label>
+                            <div class="col-lg-1 ">
+                                <select class="form-control" id="" name="other_operator">
+                                    <option value=""></option>
+                                    <option value="+">+</option>
+                                    <option value="-">-</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3 ">
+                                <button type="button" class="btn btn-default" name="Query">
+                                    <i class="fa fa-paw"></i>
+                                </button>
+                                <button type="button" class="btn btn-default" name="Add">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                                <button type="button" class="btn btn-default" name="Del">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-2 col-lg-pull-1 control-label">预测长度:</label>
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <input type="number" class="form-control " id="predict_length" value="30" name="" placeholder="">
+
+                        </div>
+                        <label class="col-lg-2 col-lg-pull-1 control-label">是否预测:</label>
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <input type="number" class="form-control " id="predict_status" value="0" name="" placeholder="">
+
+                        </div>
+                        <!--@*<label class="col-lg-2 col-lg-pull-1 control-label">预测频度:</label>-->
+                        <!--<div class="col-lg-4 col-lg-pull-1">-->
+                            <!--<input type="number" class="form-control " id="predict_freq" value="1" name="" placeholder="">-->
+
+                        <!--</div>*@-->
+
+
+                    </div>
+                    <div class="form-group">
+                        <!--@*<label class="col-lg-2 control-label col-lg-pull-1">自定义输出名称:</label>-->
+                        <!--<div class="col-lg-4 col-lg-pull-1">-->
+                            <!--<input type="text" class="form-control " id="self_defined_name" value="" name="" placeholder="">-->
+                        <!--</div>*@-->
+                        <label class="col-lg-2 control-label col-lg-pull-1">存储表:</label>
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <select class="form-control" id="output_store">
+                                <option value="t_el_real_forecast">t_el_real_forecast</option>
+                                <option value="t_mm_item_result">t_mm_item_result</option>
+                                <option value="t_mm_cog_day_predict">t_mm_cog_day_predict</option>
+                                <option value="t_el_consume_forecast">t_el_consume_forecast</option>
+                                <option value="t_el_day_load_forecast">t_el_day_load_forecast</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--@*<div class="form-group">-->
+                    <!--<label class="col-lg-2 col-lg-pull-1 control-label">是否预测:</label>-->
+                    <!--<div class="col-lg-4 col-lg-pull-1">-->
+                        <!--<input type="number" class="form-control " id="predict_status" value="0" name="" placeholder="">-->
+
+                    <!--</div>-->
+                    <!--<label class="col-lg-2 col-lg-pull-1 control-label">预测时段:</label>-->
+                    <!--<div class="col-lg-4 col-lg-pull-1">-->
+                        <!--<input type="number" class="form-control " id="predict_phase" value="30" name="" placeholder="">-->
+                    <!--</div>-->
+
+                <!--</div>*@-->
+                    <!--@*<div class="form-group">-->
+                    <!--<label class="col-lg-2 col-lg-pull-1 control-label">工况校正:</label>-->
+                    <!--<div class="col-lg-4 col-lg-pull-1">-->
+                        <!--<input type="number" class="form-control " id="condition_adjust" value="0" name="" placeholder="">-->
+                    <!--</div>-->
+                    <!--<label class="col-lg-2 col-lg-pull-1 control-label">预测融合:</label>-->
+                    <!--<div class="col-lg-4 col-lg-pull-1">-->
+                        <!--<select class="form-control" id="predict_fuse">-->
+                            <!--<option value="0">否</option>-->
+                            <!--<option value="1">是</option>-->
+
+                        <!--</select>-->
+
+                    <!--</div>-->
+
+
+                <!--</div>*@-->
+                    <div class="form-group">
+                        <label class="col-lg-2 col-lg-pull-1 control-label">预测顺序:</label>
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <input type="number" class="form-control " id="prediction_order" value="" name="" placeholder="">
+                        </div>
+                        <!--@*<label class="col-lg-2 control-label col-lg-pull-1">-->
+                        <!--是否为输出-->
+                    <!--</label>-->
+
+                        <!--<div class="col-lg-4 col-lg-pull-1" id="predict_output_radio">-->
+
+                            <!--<div class="col-sm-2">-->
+                                <!--<label>-->
+                                    <!--<input type="radio" value="1" id="" name="predictOutRadios">是-->
+                                <!--</label>-->
+                            <!--</div>-->
+                            <!--<div class="col-sm-2">-->
+                                <!--<label>-->
+                                    <!--<input type="radio" value="0" id="" name="predictOutRadios">否-->
+                                <!--</label>-->
+                            <!--</div>-->
+                        <!--</div>*@-->
+                        <label class="col-lg-2 control-label col-lg-pull-1">
+                            是否显示
+                        </label>
+
+                        <div class="col-lg-4 col-lg-pull-1" id="predict_User_radio">
+
+                            <div class="col-sm-2">
+                                <label>
+                                    <input type="radio" value="1" id="" name="predictUserRadios">是
+                                </label>
+                            </div>
+                            <div class="col-sm-2">
+                                <label>
+                                    <input type="radio" value="0" id="" name="predictUserRadios">否
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!--@** 预测输出项*@-->
+
+                    <!--@*<div name="predictOutputClass" style="display:none;">-->
+                    <!--<div class="hr-line-dashed"> </div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-lg-2 control-label col-lg-pull-1">自定义输出名称:</label>-->
+                        <!--<div class="col-lg-4 col-lg-pull-1">-->
+                            <!--<input type="text" class="form-control " id="self_defined_name" value="" name="" placeholder="">-->
+                        <!--</div>-->
+                        <!--<label class="col-lg-2 control-label col-lg-pull-1">存储表:</label>-->
+                        <!--<div class="col-lg-4 col-lg-pull-1">-->
+                            <!--<select class="form-control" id="output_store">-->
+                                <!--<option value="t_el_real_forecast">t_el_real_forecast</option>-->
+                                <!--<option value="t_mm_item_result">t_mm_item_result</option>-->
+                                <!--<option value="t_mm_cog_day_predict">t_mm_cog_day_predict</option>-->
+                                <!--<option value="t_el_consume_forecast">t_el_consume_forecast</option>-->
+                                <!--<option value="t_el_day_load_forecast">t_el_day_load_forecast</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>*@-->
+                    <div class="hr-line-dashed"> </div>
+                </form>
+
+                <!--@**  用户配置  *@-->
+
+                <form class="form-horizontal" style="display:none" id="predict_user_details">
+                    <div class="form-group">
+
+                        <label class="col-lg-2 control-label col-lg-pull-1">用户组别:</label>
+                        <div class="col-lg-4 col-lg-pull-1">
+                            <select class="form-control" required id="user_classfy">
+                                <option value=""></option>
+                                <option value="柜位">柜位</option>
+                                <option value="消耗用户">消耗用户</option>
+                                <option value="发生用户">发生用户</option>
+
+                            </select>
+                        </div>
+                        <!--@*<label class="col-lg-2 control-label col-lg-pull-1">是否显示:</label>-->
+                        <!--<div class="col-lg-4 col-lg-pull-1" id="user_isDisplay">-->
+                            <!--<div class="col-sm-2">-->
+                                <!--<label>-->
+                                    <!--<input type="radio" value="1" id="" name="userRadios">是-->
+                                <!--</label>-->
+                            <!--</div>-->
+                            <!--<div class="col-sm-2">-->
+                                <!--<label>-->
+                                    <!--<input type="radio" value="0" id="" name="userRadios">否-->
+                                <!--</label>-->
+                            <!--</div>-->
+                        <!--</div>*@-->
+
+                    </div>
+
+                    <!--@*<div class="form-group">-->
+                    <!--<label class="col-lg-2 control-label col-lg-pull-1">所属管网:</label>-->
+                    <!--<div class="col-lg-4 col-lg-pull-1">-->
+                        <!--<select class="form-control" required id="user_net">-->
+                            <!--<option value="高炉煤气管网">高炉煤气管网</option>-->
+                            <!--<option value="焦炉煤气管网">焦炉煤气管网</option>-->
+                            <!--<option value="转炉煤气管网1">转炉煤气管网1</option>-->
+                            <!--<option value="转炉煤气管网2">转炉煤气管网2</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                <!--</div>*@-->
+                    <div class="hr-line-dashed"> </div>
+                </form>
+                <!--@**预测模型及相应的参数*@-->
+                <form id="model_params_edit_form" class="form-horizontal">
+                    <div class="form-group" style="margin-bottom: 0px;">
+
+                        <label class="col-lg-1 control-label ">添加模型</label>
+                        <div class="col-lg-2 ">
+                            <button type="button" class="btn btn-default" id="model_Add_Btn">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                            <button type="button" class="btn btn-default" id="model_Del_Btn">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+
+
+                    </div>
+
+                </form>
+                <div id="model_template">
+                </div>
+
+            </div>
+            <div class="ibox-footer">
+
+                <div class="row">
+                    <div class="text-center">
+                        <div id="edit_btn" style="display:none">
+                            <button type="button" class="btn btn-primary" id="back_btn">返回</button>
+                            <button type="button" class="btn btn-primary" id="form_submit_btn">保存</button>
+                        </div>
+                        <div id="next_btn">
+                            <button type="button" class="btn btn-primary" id="back_page_btn">上一页</button>
+                            <button type="button" class="btn btn-primary" id="next_page_btn">下一页</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+</div>
+<!--@**采集点查询结果*@-->
+<div class="modal fade" id="point_search_modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:15px;">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h5 class="modal-title" style="float:left" id="title_point_model">采集点</h5>
+
+            </div>
+            <div class="modal-body" id="" style="padding-bottom:5px;">
+                <table id="point_table" class="table table-hover table-bordered" data-click-to-select="true" style="cursor:pointer">
+                    <thead>
+                    <tr>
+                        <th data-checkbox="true"></th>
+                        <th data-field="">序号</th>
+                        <th data-field="pointName">采集点名</th>
+                        <th data-field="pointNo">编号</th>
+                        <th data-field="logicMax">逻辑上限</th>
+                        <th data-field="logicMin">逻辑下限</th>
+                        <th data-field="maxValue">最大值</th>
+                        <th data-field="minValue">最小值</th>
+                        <th data-field="unit">单位</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal" style="margin-bottom:0px;">取消</button>
+                <button type="button" class="btn btn-primary" id="point_to_predict_btn">确认</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--@*预测模型查询结果*@-->
+<!--@Html.Partial("PredictModelView.cshtml")-->
+
+<!--@**采集点查询结果*@-->
+<div class="modal inmodal fade" id="predict_merged_item" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:15px;">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h5 class="modal-title" style="float:left" id="">预测项</h5>
+
+            </div>
+            <div class="modal-body" id="" style="padding-bottom:5px;">
+                <table id="predict_table" class="table table-hover table-bordered" data-click-to-select="true" style="cursor:pointer">
+                    <thead>
+                    <tr>
+                        <th data-checkbox="true"></th>
+                        <th data-field="">序号</th>
+                        <th data-field="pointName">采集点名</th>
+                        <th data-field="pointNo">编号</th>
+                        <th data-field="logicMax">逻辑上限</th>
+                        <th data-field="logicMin">逻辑下限</th>
+                        <th data-field="maxValue">最大值</th>
+                        <th data-field="minValue">最小值</th>
+                        <th data-field="unit">单位</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal" style="margin-bottom:0px;">取消</button>
+                <button type="button" class="btn btn-primary" id="point_to_tank_btn">确认</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script src="js/tempJs/predict.js"></script>
+</html>

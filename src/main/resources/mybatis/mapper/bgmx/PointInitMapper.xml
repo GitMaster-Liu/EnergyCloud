@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iail.energycloud.mapper.bgmx.PointInitMapper">
+    <select id="selectPoint" resultType="com.iail.energycloud.entity.bgmx.PointItem.PointInitEntity">
+        select t1.id as id,t1.pointname as pointName,t1.pointno as pointNo,t1.unit as unit,t1.dimension as dimension,
+        t1.maxvalue as maxValue,t1.minvalue as minValue,t1.logicmax as logicMax,t1.logicmin as logicMin,t2.descp as pointTypeId,
+        t3.descp as minFreqId,t4.storetypename as storeTypeId,t1.unittransfactor as unitTransfactor,t1.pointtypeid as pointTypeId,t1.minfreqid as minFreqId,t1.storetypeid as storeTypeId
+        from bgmx.t_da_point t1,bgmx.t_da_point_type t2,bgmx.t_da_min_freq t3,bgmx.t_da_store_type t4
+        WHERE t1.pointtypeid = t2.id AND t1.minfreqid = t3.id AND t1.storetypeid = t4.id
+    </select>
+        <select id="selectTypeId" parameterType="Integer" resultType="String">
+            SELECT id AS pointTypeId FROM bgmx.t_da_point_type WHERE bgmx.t_da_point_type.pointtypeno=#{pointTypeNo}
+        </select>
+    <select id="selectFreqId" parameterType="Integer" resultType="String">
+        SELECT id AS minFreqId FROM bgmx.t_da_min_freq WHERE bgmx.t_da_min_freq.minfreqno=#{minFreqNo}
+    </select>
+    <select id="selectStoreId" parameterType="String" resultType="String">
+        SELECT id AS storeTypeId FROM bgmx.t_da_store_type WHERE t_da_store_type.storetypeno=#{storeTypeNo}
+    </select>
+    <select id="selectMinFreq" resultType="com.iail.energycloud.entity.bgmx.PointItem.PointInitEntity">
+        SELECT * FROM bgmx.t_da_min_freq
+    </select>
+        <insert id="insertPoint">
+            INSERT INTO bgmx.t_da_point(id,pointtypeid,minfreqid,storetypeid,pointname,pointno,unit,dimension,descp,maxvalue,minvalue,logicmax,logicmin,defaultvalue,unittransfactor)
+            VALUES (#{id},#{pointTypeId},#{minFreqId},#{storeTypeId},#{pointName},#{pointNo},#{unit},#{dimension},#{descp},#{maxValue},#{minValue},#{logicMax},#{logicMin},#{defaultValue},#{unitTransfactor})
+        </insert>
+    <delete id="deletePoint" parameterType="String">
+        DELETE FROM bgmx.t_da_point WHERE id=#{id}
+    </delete>
+</mapper>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ParamInit</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <i class=""></i>
+                <h5>专家系统变量配置</h5>
+            </div>
+
+            <div class="ibox-content" id="tag_point_table_show">
+                <div class="" id="toolbar">
+                    <button type="button" class="btn btn-primary btn-outline" id="tag_point_add_btn">
+                        <i class="fa fa-plus">新增</i>
+                    </button>
+                    <button type="button" class="btn btn-destroy" id="tag_point_del_btn">
+                        <i class="fa fa-minus">删除</i>
+                    </button>
+                    <button type="button" class="btn btn-destroy" id="model_forward_btn">
+                        <i class="fa fa-share">模型配置</i>
+                    </button>
+                    <button type="button" class="btn btn-destroy" id="menu_btn_delete" disabled style="display:none">
+                        <i class="fa fa-minus">下载模版</i>
+                    </button>
+                </div>
+                <table id="tag_param_table" class="table table-hover table-bordered">
+                    <thead>
+                    <tr>
+                        <th data-field="">序号</th>
+                        <th data-field="tagName">预测项名</th>
+                        <th data-field="tag">编号</th>
+                        <th data-field="groupName">组别</th>
+                        <th data-field="pointNo">采集点编号</th>
+                        <th data-field="unit">单位</th>
+                        <th data-field="isCollect">收集</th>
+                        <th data-field="selfdef">自定义</th>
+                        <th data-field="hlimit">上限</th>
+                        <th data-field="llimit">下限</th>
+
+                    </tr>
+
+                    </thead>
+                </table>
+            </div>
+            <div class="ibox-content" style="display:none" id="tag_edit_form_show">
+                <div>
+                    <form id="" class="form-horizontal">
+                        <div class="form-group" name="form_group_one">
+                            <label class="col-lg-2 control-label col-lg-pull-1">变量名称:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="text" class="form-control" name="" id="tagName" placeholder="1#BFG柜储量">
+
+                            </div>
+                            <label class="col-lg-2 control-label col-lg-pull-1"></label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <button type="button" class="btn btn-primary" id="query_point_btn">查询</button>
+                            </div>
+                        </div>
+                        <div class="form-group" id="point_source">
+                            <label class="col-lg-2 col-lg-pull-1 control-label">采集点编号:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="text" class="form-control " value="" id="pointNo">
+                            </div>
+                            <label class="col-lg-2 col-lg-pull-1 control-label">自定义:</label>
+                            <div class="col-lg-4 col-lg-pull-1" id="isSelfDef">
+                                <div class="col-sm-2">
+                                    <label>
+                                        <input type="radio" value="1" id="" name="selfRadios" checked>是
+                                    </label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <label>
+                                        <input type="radio" value="0" id="" name="selfRadios">否
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label col-lg-pull-1">变量编号:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="text" class="form-control" name="" id="tagNo" placeholder="">
+                            </div>
+                            <label class="col-lg-2 col-lg-pull-1 control-label">变量类型:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <select class="form-control" required id="ruleVarClassfy">
+                                    <option value=""></option>
+                                    <option value="4b9ee84e-1215-4bef-9643-0086830d6ece">输入变量</option>
+                                    <option value="7185ce98-79cf-429d-bb4a-cd8ed287126c">输出变量</option>
+                                    <option value="e9055437-5b7b-4e03-aadc-541296d5af5f">中间变量</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group " name="form_group_two">
+                            <label class="col-lg-2 control-label col-lg-pull-1">组别:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <select class="form-control" id="tag_classfy">
+                                    <option value="BFG">BFG</option>
+                                    <option value="COG">COG</option>
+                                    <option value="LDG">LDG</option>
+                                </select>
+                            </div>
+                            <label class="col-lg-2 col-lg-pull-1 control-label">单位:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <select class="form-control" id="unit">
+                                    <option value=""></option>
+                                    <option value="km3/h">km3/h</option>
+                                    <option value="km3/d">km/d</option>
+                                    <option value="km3">km3</option>
+                                    <option value="GJ/T">GJ/T</option>
+                                    <option value="GJ">GJ</option>
+                                    <option value="MW">MW</option>
+                                    <option value="T">T</option>
+                                    <option value="kj/m3">kj/m3</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" name="form_group_three">
+                            <label class="col-lg-2 col-lg-pull-1 control-label">上限:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="number" class="form-control " id="max" value="" name="" placeholder="">
+                            </div>
+                            <label class="col-lg-2 col-lg-pull-1 control-label">下限:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="number" class="form-control " id="min" value="" name="" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 col-lg-pull-1 control-label">数据点类型:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <select class="form-control" id="pointTypeId">
+                                    <option value="7d9fe1db-d7a1-407a-a267-ef2edab5cb6b">计量点</option>
+                                    <option value="bc4f32dc-66d5-4aa6-8b84-9f166255282e">计算点</option>
+                                </select>
+                            </div>
+                            <label class="col-lg-2 col-lg-pull-1 control-label">规则:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <select class="form-control" id="ruleBaseId">
+                                    <option value="05b21588-ecc3-4821-8303-4a4f395b82f5">LDG调度</option>
+                                    <option value="2f39d6e8-a7df-4c7c-b18b-7e8cf5ce970e">COG调度</option>
+                                    <option value="ed9402a9-367c-401e-9b5d-ecb95b288822">BFG调度</option>
+                                    <option value="aaa4d1fc-c563-41dc-a6e9-11d02e071158">联合调度</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 col-lg-pull-1 control-label">存储类型:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <select class="form-control" id="storeTypeId">
+                                    <option value="7b9ee13b-70b2-42b5-86f0-4af5627f7d5d">模拟表</option>
+                                    <option value="a1c9c211-25a3-4fc5-af40-5c3d85910dd0">数字表</option>
+                                    <option value="61da119b-ab00-489c-b404-af1a862da3c9">计算表</option>
+                                    <option value="e5a30a24-a279-489f-a71a-82e4ae574578">电力总负荷</option>
+                                    <option value="27e4ac26-5105-460e-9835-51501306840a">日用电量</option>
+                                    <option value="3ec0ca55-2425-406a-a45d-c930cc7c2d9d">焦炉煤气日耗量</option>
+                                    <option value="4af62e88-4103-49cd-972a-0fe6b7c09936">模糊计算点</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+            <div class="ibox-footer" style="display:none" id="foot_tag">
+
+                <div class="row">
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary" id="back_btn">返回</button>
+                        <button type="submit" class="btn btn-primary" id="form_submit_btn">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-footer">
+                <div class="row">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" id="back_page_btn">上一页</button>
+                        <button type="button" class="btn btn-primary" id="next_page_btn">下一页</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="js/tempJs/tagParam.js"></script>
+</body>
+</html>

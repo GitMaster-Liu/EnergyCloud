@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PointInit</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <i class=""></i>
+                <h5>采集点配置</h5>
+            </div>
+
+            <!--显示已经存在的结果-->
+            <div class="ibox-content" id="point_table_show">
+                <div class="" id="toolbar">
+                    <button type="button" class="btn btn-primary btn-outline" id="point_add_btn">
+                        <i class="fa fa-plus">新增</i>
+                    </button>
+                    <button type="button" class="btn btn-destroy" id="point_del_btn">
+                        <i class="fa fa-minus">删除</i>
+                    </button>
+                    <button type="button" class="btn btn-destroy" id="bulk_import" data-toggle="modal" data-target="#myModal">
+                        <i class="fa fa-minus">批量导入</i>
+                    </button>
+                    <button type="button" class="btn btn-destroy" id="temp_download">
+                        <i class="fa fa-minus">下载模版</i>
+                    </button>
+                </div>
+                <table id="point_table" class="table table-hover table-bordered" data-single-select="true" data-click-to-select="true">
+                </table>
+            </div>
+            <div class="ibox-content" style="display:none" id="point_edit_form_show">
+                <div>
+                    <form id="" class="form-horizontal">
+                        <!--采集点相关-->
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label col-lg-pull-1">采集点名称:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="text" class="form-control" id="point_name" name="" value="" required placeholder="1#BFG柜储量" autocomplete="off">
+                                <span id="point_name_msg" style="display:none">(必填)</span>
+                            </div>
+                            <label class="col-lg-2 control-label col-lg-pull-1">采集点编号:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="text" class="form-control " id="point_no" name="" required placeholder="M010101171" autocomplete="off">
+                            </div>
+
+                        </div>
+                        <div class="form-group " name="form_group_two">
+                            <label class="col-lg-2 control-label col-lg-pull-1">TAG编号:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="text" class="form-control " id="tag_no" name="" required placeholder="DJ4820540C___112" autocomplete="off">
+                            </div>
+                            <label class="col-lg-2 control-label col-lg-pull-1">采集点频率:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <select class="form-control" id="point_freq">
+                                    <option value="622ea479-6366-4309-9919-55fd6651f4f1">分钟</option>
+                                    <option value="ac5d9b87-fc5f-4c62-91d1-989d92607ee2">小时</option>
+                                    <option value="3248b54d-88e0-4abb-ae0f-781bee24987e">天</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" name="form_group_three">
+                            <label class="col-lg-2 col-lg-pull-1 control-label">安全最大值:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="number" class="form-control " id="safe_max" value="" name="" placeholder="" autocomplete="off">
+                            </div>
+                            <label class="col-lg-2 col-lg-pull-1 control-label">安全最小值:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="number" class="form-control " id="safe_min" value="" name="" placeholder="" autocomplete="off">
+                            </div>
+
+                        </div>
+                        <div class="form-group" name="form_group_four">
+
+                            <label class="col-lg-2 col-lg-pull-1 control-label">缺省值:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="number" class="form-control " id="defaultValue" value="" name="" placeholder="" autocomplete="off">
+                            </div>
+                            <label class="col-lg-2 col-lg-pull-1 control-label">物理最大值:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="number" class="form-control " id="physical_max" value="" name="" placeholder="" autocomplete="off">
+                            </div>
+                            <label class="col-lg-2 col-lg-pull-1 control-label">物理最小值:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <input type="number" class="form-control " id="physical_min" value="" name="" placeholder="" autocomplete="off">
+                            </div>
+
+                        </div>
+                        <div class="form-group" name="form_group_four">
+                            <label class="col-lg-2 col-lg-pull-1 control-label">单位:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <select class="form-control" id="unit">
+                                    <option value=""></option>
+                                    <option value="km3/h">km3/h</option>
+                                    <option value="km3/d">km/d</option>
+                                    <option value="km3">km3</option>
+                                    <option value="GJ/T">GJ/T</option>
+                                    <option value="GJ">GJ</option>
+                                    <option value="MW">MW</option>
+                                    <option value="T">T</option>
+                                    <option value="kj/m3">kj/m3</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="form_group_four">
+                            <label class="col-lg-2 col-lg-pull-1 control-label">存储位置:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <select class="form-control" id="point_store">
+                                    <option value="4af62e88-4103-49cd-972a-0fe6b7c09936">模糊计算点</option>
+                                    <option value="61da119b-ab00-489c-b404-af1a862da3c9">计算表</option>
+                                    <option value="7b9ee13b-70b2-42b5-86f0-4af5627f7d5d">模拟表</option>
+                                    <option value="a1c9c211-25a3-4fc5-af40-5c3d85910dd0">数字表</option>
+                                    <option value="27e4ac26-5105-460e-9835-51501306840a">日用电量</option>
+                                    <option value="3ec0ca55-2425-406a-a45d-c930cc7c2d9d">焦炉煤气日耗量</option>
+                                    <option value="e5a30a24-a279-489f-a71a-82e4ae574578">电力总负荷</option>
+                                </select>
+                            </div>
+                            <label class="col-lg-2 control-label col-lg-pull-1">采集点类型:</label>
+                            <div class="col-lg-4 col-lg-pull-1">
+                                <select class="form-control" required id="point_classfy">
+                                    <option value="7d9fe1db-d7a1-407a-a267-ef2edab5cb6b">计量点</option>
+                                    <option value="bc4f32dc-66d5-4aa6-8b84-9f166255282e">计算点</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="ibox-footer">
+
+                <div class="row">
+                    <div class="text-center">
+                        <div id="edit_btn" style="display:none">
+                            <button type="submit" class="btn btn-primary" id="back_btn">返回</button>
+                            <button type="submit" class="btn btn-primary" id="form_submit_btn">保存</button>
+                        </div>
+                        <div id="next_btn">
+                            <button type="submit" class="btn btn-primary" id="back_page_btn">上一页</button>
+                            <button type="submit" class="btn btn-primary" id="next_page_btn">下一页</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                模态框（Modal）标题
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            在这里添加一些文本
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                            <button type="button" class="btn btn-primary">
+                                提交更改
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script>
+$(document).ready(function(){
+    $('#point_add_btn').on('click', function () {
+        buttonStatusExchanged();
+    });
+    $('#back_btn').on('click', function () {
+        buttonStatusExchanged();
+    });
+    $('#back_page_btn').on('click', function () {
+        window.location.href = location.origin+"/module";
+    });
+    $('#next_page_btn').on('click', function () {
+        window.location.href = location.origin+"/predict";
+    });
+    $.ajax({
+        type: "GET",
+        url: "/point/select",
+        dataType: "json",
+        async: true,
+        data:{},
+        success: function (pointData) {
+            pointTableInit(pointData);
+            console.log(pointData);
+        },
+        error: function(){
+            console.log("管网查询数据接口出错");
+        }
+    });
+    //删除
+    $('#point_del_btn').click(function(){
+        alert("确认删除？");
+        var data = $("#point_table").bootstrapTable('getSelections');
+        var n = data.length;
+        var i;
+        for(i=0;i<n;i++){
+            var targetId = data[i].id;
+            var object={
+                "id": targetId
+            };
+            console.log(targetId);
+            $.ajax({
+                type: "POST",
+                url: "/point/delete",
+                dataType: "json",
+                async: true,
+                data: object,
+                success: function () {
+                    refresh();
+                    console.log("数据点删除成功");
+                },
+                error: function(){
+                    console.log("数据点删除接口出错");
+                }
+            })
+        }
+    });
+    //插入
+    $('#form_submit_btn').click(function(){
+        var data = formData();
+        $.ajax({
+            type: "POST",
+            url: "/point/insert",
+            dataType: "json",
+            async: true,
+            data: data,
+            success: function () {
+                buttonStatusExchanged();
+                refresh();
+            },
+            error: function(){
+                console.log("请求失败");
+            }
+        })
+    });
+    $('#temp_download').click(function(){
+        window.location.href=location.origin + '\\xlsx\\CollectionPoints.xlsx';
+    });
+    // $('#bulk_import').click(function(){
+    //     window.location.href=location.origin + '\\point\\import';
+    // });
+});
+var pointTableInit = function (pointData) {
+    $('#point_table').bootstrapTable({
+        data: pointData,
+        toolbar: "#toolbar",
+        //striped: true,                      //是否显示行间隔色
+        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+        pagination: true,                   //是否显示分页（*）
+        sortable: true,                     //是否启用排序
+        //sortOrder: "asc",                   //排序方式
+        //queryParams: oTableInit.queryParams,//传递参数（*）
+        sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+        pageNumber: 1,                       //初始化加载第一页，默认第一页
+        pageSize: 10,                       //每页的记录行数（*）
+        pageList: [10, 25, 50],        //可供选择的每页的行数（*）
+        search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+        //strictSearch: true,
+        //showColumns: true,                  //是否显示所有的列
+        //showRefresh: true,                  //是否显示刷新按钮
+        minimumCountColumns: 2,             //最少允许的列数
+
+        detailView: false,                   //是否显示父子表
+        columns: [
+            {
+                checkbox: true
+            },
+            {
+                title: '序号',
+                width: 57,
+                formatter: function (value, row, index) {
+                    return index + 1;
+                }
+            },
+            {
+                field: 'pointName',
+                title: '采集点名',
+                //formatter: timeFormatter
+            },
+            {
+                field: 'pointNo',
+                title: '编号'
+            },
+            {
+                field: 'pointTypeId',
+                title: '点类型'
+            },
+            {
+                field: 'minFreqId',
+                title: '采集频率'
+            },
+            {
+                field: 'storeTypeId',
+                title: '存储类型'
+            },
+            {
+                field: 'logicMax',
+                title: '逻辑上限'
+            },
+            {
+                field: 'logicMin',
+                title: '逻辑下限'
+            },
+            {
+                field: 'defaultValue',
+                title: '缺省值'
+
+            },
+            {
+                field: 'maxValue',
+                title: '最大值'
+
+            },
+            {
+                field: 'minValue',
+                title: '最小值'
+            },
+            {
+                field: 'unit',
+                title: '单位'
+            }
+        ]
+    });
+};
+var buttonStatusExchanged = function () {
+    $('#point_edit_form_show').toggle();
+    $('#point_table_show').toggle();
+    $('#edit_btn').toggle();
+    $('#next_btn').toggle();
+};
+
+//表单数据及验证
+var formData = function () {
+
+    var point_name = $("#point_name").val();
+    if (point_name == "") {
+        //$("#point_name_msg").show();
+        alert("采集点名必填");
+        console.log("必填")
+        return false;
+    }
+    var point_no = $("#point_no").val();
+    if (point_no == "") {
+        alert("采集点编号必填");
+        console.log("必填")
+        return false;
+    }
+
+    var pointFreqId = $("#point_freq").val();
+
+    var tag_no = $("#tag_no").val();
+    if (tag_no == "") {
+        alert("TAG编号必填");
+        console.log("必填")
+        return false;
+    }
+
+    var safe_max = $("#safe_max").val();
+    if (safe_max == "") {
+        safe_max = null;
+    }
+    var safe_min = $("#safe_min").val();
+    if (safe_min == "") {
+        safe_min = null;
+    }
+    var physical_max = $("#physical_max").val();
+    if (physical_max == "") {
+        physical_max = null;
+    }
+    var physical_min = $("#physical_min").val();
+    if (physical_min == "") {
+        physical_min = null;
+    }
+    var defaultValue = $("#defaultValue").val();
+    if (defaultValue == "") {
+        defaultValue = null;
+    }
+    var unit = $("#unit").val();
+    var storeTypeId = $("#point_store").val();
+    var pointTypeId = $("#point_classfy").val();
+
+
+    var object = {
+        // "pointNo": point_no,
+        // "pointName": point_name,
+        // "tagNo": tag_no,
+        // "unit": unit,
+        // "pointType": parseInt(point_classfy),
+        // "pointStore": dbStore,
+        // "pointFreq": parseInt(point_freq),
+        // "maxValue": safe_max,
+        // "minValue": safe_min,
+        // "logicMax": physical_max,
+        // "logicMin": physical_min,
+
+        "pointTypeId": pointTypeId,
+        "minFreqId": pointFreqId,
+        "storeTypeId": storeTypeId,
+        "pointName": point_name,
+        "pointNo": point_no,
+        "unit": unit,
+        "maxValue": safe_max,
+        "minValue": safe_min,
+        "logicMax": physical_max,
+        "logicMin": physical_min,
+        "defaultValue": defaultValue,
+        "descp": null
+
+        //"sysFlag": dbBase
+        //"predictItemStatus": opts.data.predictItemStatus,//数据库中添加字段
+
+
+    };
+    console.log(object);
+    return object;
+};
+
+//刷新
+var refresh = function(){
+    $.ajax({
+        type: "GET",
+        url: "/point/select",
+        dataType: "json",
+        async: true,
+        data:{},
+        success: function (pointData) {
+            $('#point_table').bootstrapTable('load', pointData);
+        },
+        error: function(){
+            console.log("数据点查询数据接口出错");
+        }
+    });
+}
+</script>

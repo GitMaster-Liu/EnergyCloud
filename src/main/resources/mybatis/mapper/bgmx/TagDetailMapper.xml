@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iail.energycloud.mapper.bgmx.TagDetailMapper">
+    <select id="selectTagDetail" resultType="com.iail.energycloud.entity.bgmx.TagDetailEntity">
+        select t1.id as id, t1.tag as tag, t1.tagname as tagName, t1.groupname as groupName, t1.pointno as pointNo,t1.unit as unit, t1.iscollect as isCollect,
+        t1.hlimit as hLimit, t1.llimit as lLimit, t1.selfdef as selfdef
+        from bgmx.t_da_tag t1
+        left join bgmx.t_da_rule_variable t2 on t1.tagname = t2.tagname
+        left join bgmx.t_da_rule_variable_type t3 on t3.id = t2.variabletypeid
+        left join bgmx.t_da_rulebase t4 on t4.id = t2.rulebaseid
+    </select>
+    <insert id="insertTagDetail">
+        INSERT INTO bgmx.t_da_tag(id,tag,tagname,groupname,iscollect,unit,pointno,pointtypeid,storetypeid,hlimit,llimit,selfdef)
+        VALUES (#{id},#{tag},#{tagName},#{groupName},#{isCollect},#{unit},#{pointNo},#{pointTypeId},#{storeTypeId},#{hLimit},#{lLimit},#{selfDef})
+    </insert>
+    <insert id="insertVariable">
+        INSERT INTO bgmx.t_da_rule_variable(id,rulebaseid,variabletypeid,tagname,varorder,membershipid)
+        VALUES (#{id},#{ruleBaseId},#{variableTypeId},#{tagName},#{varOrder},#{memberShipId})
+    </insert>
+    <delete id="deleteTagDetail">
+        DELETE FROM bgmx.t_da_tag WHERE id=#{id}
+    </delete>
+    <delete id="deleteVariable">
+        DELETE FROM bgmx.t_da_rule_variable WHERE tagname=#{tagName}
+    </delete>
+
+</mapper>

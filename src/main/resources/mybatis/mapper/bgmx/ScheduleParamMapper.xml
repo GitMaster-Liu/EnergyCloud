@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iail.energycloud.mapper.bgmx.ScheduleParamMapper">
+    <select id="selectSchedule" resultType="com.iail.energycloud.entity.bgmx.ScheduleParamEntity">
+        select * from bgmx.t_fuzzy_schedule_parameter
+    </select>
+    <insert id="insertSchedule">
+        INSERT INTO bgmx.t_fuzzy_schedule_parameter(id, "order", varname, lowlimit, highlimit, "group", unit)
+        VALUES (#{id},#{order},#{varName},#{lowLimit},#{highLimit},#{group},#{unit})
+    </insert>
+    <delete id="deleteSchedule" parameterType="String">
+        DELETE FROM bgmx.t_fuzzy_schedule_parameter WHERE id=#{id}
+    </delete>
+
+</mapper>
